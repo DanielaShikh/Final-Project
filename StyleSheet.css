@@ -1,0 +1,154 @@
+﻿body {
+    background-image: url('images/background.jpg');
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    direction: rtl;
+    margin: auto;
+}
+
+div {
+    text-align: center;
+    font-family: Calibri;
+    padding: 10px;
+}
+
+img {
+    width: 60px;
+}
+
+td img, div img:not(#upsidedownCashierDiv, #logo) {
+    border: 2px solid black;
+    border-radius: 7px;
+}
+
+#upsidedownCashierDiv {
+    width: 70px;
+}
+
+h1 {
+    color: #00096c
+}
+
+p, input, span:not(#messageSpan) {
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px white;
+    border-radius: 100px;
+}
+
+#messageSpan {
+    background-color: #f4d9fb;
+    color: #6d158a;
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 1px 1px black;
+}
+
+#changeColorDiv {
+    display: none;
+}
+
+    #changeColorDiv span, #buttonColor {
+        font-size: 20px;
+    }
+
+#titleColorChanger {
+    display: block;
+    background-color: #adf5fd
+}
+
+#logo {
+    display: block;
+    width: 250px;
+    margin: auto;
+    padding: 20px;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 3px;
+}
+
+.players span {
+    color: #7cd3f9;
+    background-color: #00096c
+}
+
+#startGameBtn {
+    margin-bottom: 10px;
+}
+
+#tableDeckDiv span, #cashierDiv span {
+    background-color: #eabcff;
+}
+
+#tableDeckDiv img, #cashierDiv img, #upsidedownCashierDiv {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
+@media (max-width: 1026px) {
+    #tableDeckDiv span, #messageSpan {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 926px) {
+    #tableDeckDiv span, #messageSpan {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 859px) {
+    span {
+        font-size: 18px;
+    }
+
+    #tableDeckDiv span, #messageSpan {
+        font-size: 16px;
+    }
+}
+
+
+@media (max-width: 603px) {
+    #changeColorDiv span, #buttonColor {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 559px) {
+    #titleColorChanger {
+        background-color: transparent;
+    }
+}
+
+
+#showPickedColor span {
+    background-color: yellow;
+}
+
+#buttonHr {
+    margin-top: 30px;
+}
+
+#GiveClue {
+    position: relative;
+    margin-top: 1%;
+}
+
+td input {
+    width: 200px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+table {
+    margin: auto;
+}

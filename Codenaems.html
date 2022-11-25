@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Codenames</title>
+    <link href="StyleSheet.css" rel="stylesheet" />
+    <script src="words.js"></script>
+    <script>
+        words = {}
+        var num_of_cards = 25
+        var chosen_words_user = []; //צריך לאפס אחרי סיום המשחק
+        var num_of_chosen_words = 0; //צריך לאפס אחרי סיום המשחק
+        var num_of_words_to_choose = 0; //כמה אפשר ללחוץ
+
+        function init() {
+            words = data[0];
+            chosen_words = choose_words(words);
+            show_cards(chosen_words) //במקום 2 לשים את המספר שנבחר בגלגלת
+            document.getElementById('num_of_chosen_cards').addEventListener('input', function (evt) {
+                num_of_words_to_choose = this.value;
+                for (var i = 0; i < chosen_words_user.length; i++) {
+                    document.getElementById(chosen_words_user[i]).style.backgroundColor = "white";
+                }
+                chosen_words_user = []; 
+                num_of_chosen_words = 0;
+            });
+        }
+
+        //function that chooses the main word and the other words of the turn
+        //returns list of that includes the main word and the other words (list of strings)
+        function choose_words(words) { //*** global variables or gets parameters?***
+            var keys = Object.keys(words); //returns all words in data
+            var chosen_words = []; //list of the words that are chosen that turn
+            for (var i = 0; i < num_of_cards; i++) { //num_of_cards + 1 to add main word too
+                word = keys[Math.floor(Math.random() * keys.length)];//https://bobbyhadz.com/blog/javascript-get-random-property-from-object, random is [0,1), times len(keys) and floor function will give us number between 0 to len(keys)-1
+                while (chosen_words.includes(word)) { //prevents getting a word that is already chosen
+                    word = keys[Math.floor(Math.random() * keys.length)];
+                }
+                chosen_words.push(word);
+            }
+            return chosen_words;
+        }
+
+        function GiveClue() {
+            var dict_input = { "clue": CheckClue(), "amount": CheckAmount() };
+            for (var [key, value] of Object.entries(dict_input)) {
+                if (value == false) {
+                    alert("Error: please type again " + value + " of your cards!");
+                    return;
+                }
+            }
+            //check if amount of chosen cards equal to number of clicks
+            ResetInputs()
+        }
+
+        function CheckAmount() {
+            var num_of_chosen_cards = document.getElementById("num_of_chosen_cards");
+            if (num_of_chosen_cards < 1 || num_of_chosen_cards > num_of_cards || num_of_chosen_cards == "") {
+                return false;
+            }
+            return true
+        }
+
+        function CheckClue() {
+            var clue = document.getElementById("clue");
+            if (clue == "") {
+                return false;
+            }
+            return true;
+        }
+
+        function ResetInputs() {
+            document.getElementById('clueForm').reset();
+        }
+
+        function show_cards(chosen_words) {
+            var counter = 0;
+            var str = "<table>";
+            for (i = 0; i < Math.sqrt(num_of_cards); i++) {
+                str += "<tr>";
+                for (j = 0; j < Math.sqrt(num_of_cards); j++) {
+                    str += "<td><input id='" + chosen_words[counter] + "' type='button' value='" + chosen_words[counter] + "'onclick='chosen_word(this," + num_of_words_to_choose + ")' style=background-color:white;/></td>"
+                    counter++;
+                }
+                str += "</tr>"
+            }
+            str += "</table>";
+            document.getElementById("container").innerHTML = str;
+        }
+
+        function chosen_word(selectedButton) {
+            if (selectedButton.style.backgroundColor == "white" && num_of_chosen_words < num_of_words_to_choose) {
+                selectedButton.style.backgroundColor = "pink";
+                chosen_words_user.push(selectedButton.value);
+                num_of_chosen_words++;
+                return;
+            }
+            if (selectedButton.style.backgroundColor == "white" && num_of_chosen_words == num_of_words_to_choose) {
+                alert("you chose " + num_of_chosen_words + " already");
+                return;
+            }
+            selectedButton.style.backgroundColor = "white"; //pressing word that is chosen already (if regrets)
+            chosen_words_user.pop(selectedButton.value);
+            num_of_chosen_words--;
+        }
+
+    </script>
+</head>
+<body onload ="init()">
+    <div id="Deck">
+        <div id="PlayerA">
+            <form id="clueForm" action="/action_page.php">
+                <label for="lblClue">Type your clue here</label><br>
+                <input type="text" dir="ltr" id="clue" name="clue"><br>
+                <label for="lblAmount">Type your amount of cards</label><br>
+                <input type="text" dir="ltr" id="num_of_chosen_cards" name="num_of_chosen_cards" onchange="ChangeAmount(this.value)"><br>
+                <!--<input type="submit" id="GiveClue" onclick="GiveClue()" value="Give Clue">-->
+            </form>
+            <button type="button" id="GiveClue" onclick="GiveClue()">Give Clue</button>
+        </div>
+        <div id="container">
+            
+        </div>
+        <div id="PlayerB">
+
+        </div>
+        
+    </div>
+</body>
+</html>
